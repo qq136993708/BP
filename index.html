@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>浦发</title>
+  <link rel="stylesheet" href="./lib/layui/css/layui.css">
+  <script src="./lib/layui/layui.js"></script>
+</head>
+<style>
+  .wrap,
+  .layui-container {
+    margin: 20px auto;
+    font-size: 12px;
+    /* width: 1000px; */
+  }
+
+  .layui-form-label {
+    padding: 9px 5px;
+  }
+</style>
+
+<body>
+  <div class="wrap">
+    <div class="layui-container">
+      <div class="layui-row">
+        <form class="layui-form" lay-filter="devForm">
+          <div class="layui-row">
+            <div class="layui-form-item">
+              <label class="layui-form-label">设备名称</label>
+              <div class="layui-input-block">
+                <select name="devName" id="deviceName" lay-filter="deviceName" lay-verify="required" lay-reqtext="请先选择设备名称">
+                  <option value="">请选择设备名称</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="layui-row">
+            <div class="layui-col-md4">
+              <div class="layui-form-item">
+                <label class="layui-form-label">输入端子</label>
+                <div class="layui-input-block">
+                  <select name="channelId" id="inputTerminal" lay-filter="inputTerminal" lay-verify="required" lay-reqtext="请选择输入端子"></select>
+                </div>
+              </div>
+            </div>
+            <div class="layui-col-md4">
+              <div class="layui-form-item">
+                <label class="layui-form-label">报警类型</label>
+                <div class="layui-input-block">
+                  <select name="alarmType" id="alarmType" lay-filter="alarmType" lay-verify="required" lay-reqtext="请选择报警类型">
+                    <option value="">请选择</option>
+                    <option value="1" name="烟感探测器报警">烟感探测器报警</option>
+                    <option value="2" name="温度探测器报警">温度探测器报警</option>
+                    <option value="3" name="可燃气体探测器报警">可燃气体探测器报警</option>
+                    <option value="4" name="水浸传感器报警">水浸传感器报警</option>
+                    <option value="5" name="温湿度探测器报警">温湿度探测器报警</option>
+                    <option value="6" name="粉尘探测器报警">粉尘探测器报警</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="layui-col-md4">
+              <div class="layui-form-item">
+                <label class="layui-form-label">端子名称</label>
+                <div class="layui-input-block">
+                  <input type="text" name="terminalName" placeholder="请输入名称" autocomplete="off" id="terminalName"
+                    lay-filter="terminalName" class="layui-input">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="layui-row">
+            <p>联动输出</p>
+            <div class="layui-col-md4">
+              <div class="layui-form-item">
+                <!-- <label class="layui-form-label">复选框</label> -->
+                <div class="layui-input-block">
+                  <input type="checkbox" name="isLinkOutAudio" title="语音播报" lay-skin="primary" id="isLinkOutAudio"
+                    lay-filter="isLinkOutAudio">
+                </div>
+              </div>
+            </div>
+            <div class="layui-col-md8">
+              <p>联动预览镜头</p>
+              <div class="layui-form-item" style="border:1px solid #000;height:150px;overflow:auto">
+                <!-- <label class="layui-form-label">复选框</label> -->
+                <div class="layui-input-block" id="previewShotBox"></div>
+              </div>
+            </div>
+          </div>
+          <div class="layui-row">
+            <div style="text-align:right;">
+              <button type="button" lay-submit class="layui-btn layui-btn-normal" lay-filter="submitSave">保存</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="layui-row" id="test">
+        <p>报警类型音频</p>
+        <form class="layui-form">
+          <div class="layui-row">
+            <div class="layui-col-md4">
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 100px;">烟感探测器报警</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="title1" lay-filter="title1" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-inline"><button type="button" class="layui-btn" id="test1">浏览</button></div>
+              </div>
+            </div>
+            <div class="layui-col-md4">
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 100px;">温度探测器报警</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="title2" lay-filter="title2" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-inline"><button type="button" class="layui-btn" id="test2">浏览</button></div>
+              </div>
+            </div>
+            <div class="layui-col-md4">
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 100px;">可燃气体探测器报警</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="title3" lay-filter="title3" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-inline"><button type="button" class="layui-btn" id="test3">浏览</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="layui-row">
+            <div class="layui-col-md4">
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 100px;">水浸传感器报警</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="title4" lay-filter="title4" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-inline"><button type="button" class="layui-btn" id="test4">浏览</button></div>
+              </div>
+            </div>
+            <div class="layui-col-md4">
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 100px;">温湿度探测器报警</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="title5" lay-filter="title5" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-inline"><button type="button" class="layui-btn" id="test5">浏览</button></div>
+              </div>
+            </div>
+            <div class="layui-col-md4">
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 100px;">粉尘探测器报警</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="title6" lay-filter="title6" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-inline"><button type="button" class="layui-btn" id="test6">浏览</button></div>
+              </div>
+            </div>
+          </div>
+          <div class="layui-row">
+            <div style="text-align:right;">
+              <button type="button" lay-submit class="layui-btn layui-btn-normal" lay-filter="pathSave">保存</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="./jquery-3.6.0.min.js"></script>
+<script>
+  layui.use(['jquery', 'layer', 'form', 'upload'], function () {
+    var layer = layui.layer,
+      form = layui.form,
+      $ = layui.jquery,
+      upload = layui.upload,
+      // URL="http://192.168.14.27:9000";
+      URL="http://127.0.0.1:9000";
+
+    let _devId, //设备Id
+      _devIp, //设备ip 
+      _channelId, //端子Id
+      _devType, //设备类型 
+      _isLinkOutAudio, // 是否联动音频输出
+      _alarmdeviceList=[],
+      _linkOutIpcList = [],
+      _inputTerminalList = [];
+    form.render()
+    /*获取设备名称*/
+    createElement(URL+"/bstar/v1.0/alarmdevice", "deviceName", "option", "devName")
+
+    /*动态生成元素*/
+    function createElement(url, id, element, name) {
+      $.ajax({
+        url: url,
+        contentType: "application/json;charset=UTF-8",
+        type: 'GET',
+        success: function (relData) {
+          if (relData.code === 0) {
+            if (!relData.result.isLinkAudio) {
+              _isLinkOutAudio = relData.result.isLinkAudio
+              if (_isLinkOutAudio) {
+                $('#isLinkOutAudio').attr('checked', true)
+              }
+              _linkOutIpcList = relData.result.linkIpcList
+            }
+            let curData = relData.result.linkIpcList || relData.result
+            if (id != 'deviceName') {
+              $("#" + id).empty()
+            } 
+            if (id === 'deviceName') {
+              _alarmdeviceList =curData
+            }
+            if(id == 'inputTerminal'){
+              _inputTerminalList = curData
+            }
+            curData.map(function (item, index) {
+              if (element == "option") {
+                switch (name) {
+                  case 'devName':
+                    $("#" + id).append("<option value='" + item.devId +
+                      "' name='" + item.devId + "' data-devIp = '" + item.devIp + "' data-devType = '" + item.devType + "'>" + item.devName +
+                      "</option>")
+                    break;
+                  case 'channelName':
+                    $("#" + id).append("<option value='" + item.channelId +
+                      "' name='" + item.channelId + "'>" + item.channelName +
+                      "</option>")
+                    if (index == 0) {
+                      // $('#alarmType').append("<option value='" + item.alarmType +
+                      //   "' name='" + item.alarmType + "'>" + item.alarmType +
+                      //   "</option>")
+                      $("#alarmType").find("option[value = '" + item.alarmType + "']").attr("selected",
+                        "selected");
+                      getAudioByalarmType(item.alarmType)
+                      _channelId = item.channelId
+                      $('#terminalName').val(item.channelName)
+                      //获取设备联动信息 deviceId=" +_devId + "
+                      createElement(
+                        URL+"/bstar/v1.0/alarmdevice/output?channelId=" +
+                        _channelId, "previewShotBox", "checkbox",
+                        "channelName")
+                    }
+                    break;
+                  default:
+                    break;
+                }
+
+              } else if (element == "radio") {
+                $("#" + id).append('<input type="radio" name="' + name +
+                  '" value="' + item.numValue + '" title="' + item
+                  .name + '">')
+
+              } else if (element == "checkbox") {
+                if (item.isLinking) {
+                  $("#" + id).append(
+                    '<input type="checkbox" name="previewShot"  lay-filter="previewShot" checked="' +
+                    item.isLinking + '" title="' + item.ipcName + '" value="' + item.ipcId +
+                    '" lay-skin="primary" >')
+                } else {
+                  $("#" + id).append(
+                    '<input type="checkbox" name="previewShot"  lay-filter="previewShot" title="' + item
+                    .ipcName + '" value="' + item.ipcId + '" lay-skin="primary" >')
+                }
+              }
+            });
+
+            form.render()
+          }
+        },
+        error: function (e) {
+          console.log(e.status);
+          console.log(e.responseText);
+        }
+      });
+    }
+
+    //监听设备名称下拉
+    form.on('select(deviceName)', function (data) {
+      _devId = data.value
+      _devIp = $('#deviceName  option:selected').attr('data-devIp')
+      $('#inputTerminal').empty()
+      if (data.value && data.value != '') {
+        //获取输入端子信息
+        createElement(URL+"/bstar/v1.0/alarmdevice/input?deviceId=" + data.value,
+          "inputTerminal", "option", "channelName")
+      }
+      _devType = $('#deviceName  option:selected').attr('data-devType')
+
+      form.render()
+    });
+
+    //   输入端子
+    form.on('select(inputTerminal)', function (data) {
+      console.log(data.value);
+      if (data.value && data.value != '') {
+        //获取设备联动信息    deviceId=" + _devId +
+        createElement(URL+"/bstar/v1.0/alarmdevice/output?channelId=" + data.value,
+          "previewShotBox", "checkbox", "channelName")
+      }
+      _inputTerminalList.forEach(item=>{
+        if(item.channelId == data.value){
+          $("#alarmType").find("option[value = '" + item.alarmType + "']").attr("selected","selected");
+          $('#terminalName').val(item.channelName)
+        }
+      })
+    });
+    //报警类型
+    form.on('select(alarmType)', function (data) {
+      // console.log(data.value);
+      getAudioByalarmType(data.value * 1)
+    })
+    //是否联动音频输出
+    form.on('checkbox(isLinkOutAudio)', function (data) {
+      _isLinkOutAudio = data.elem.checked
+    });
+    form.on('checkbox(previewShot)', function (data) {
+      // console.log(data.elem); //得到checkbox原始DOM对象
+      // console.log(data.elem.checked); //是否被选中，true或者false
+      // console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+      // console.log(data.othis); //得到美化后的DOM对象
+      // console.log(' arr_box', arr_box);
+    });
+    //保存
+    form.on('submit(submitSave)', function (data) {
+      var arr_box = [];
+      $('input[name=previewShot]:checked').each(function () {
+        arr_box.push($(this).val());
+      });
+      let curList = []
+      _linkOutIpcList.forEach(item => {
+        item.isLinking = false
+        arr_box.forEach(val => {
+          if (item.ipcId == val) {
+            item.isLinking = true
+            curList.push(item)
+          }
+        })
+      })
+      let param = {
+        'devId': _devId * 1,
+        'channelId': data.field.channelId * 1,
+        'alarmType': data.field.alarmType * 1,
+        'channelName': data.field.terminalName,
+        'devType':_devType*1,
+        'isLinkAudio': _isLinkOutAudio,
+        'linkIpcList': curList
+      }
+      $.ajax({
+        url: URL+'/bstar/v1.0/alarmdevice/reaction',
+        contentType: "application/json;charset=UTF-8",
+        type: 'PUT',
+        data: JSON.stringify(param),
+        success: function (relData) {
+          if (relData.message === 'success') {
+            console.log('成功');
+          }
+        },
+        error: function (e) {
+          console.log(e.status);
+          console.log(e.responseText);
+        }
+      })
+    })
+
+    function getAudioByalarmType(type) {
+      $.ajax({
+        url: URL+'/bstar/v1.0/alarmdevice/audio?alarmType=' + type,
+        contentType: "application/json;charset=UTF-8",
+        type: 'GET',
+        success: function (relData) {
+          if (relData.message === 'success') {
+            $('input[name="title' + type + '').val(relData.result.audioPath)
+          }
+        },
+        error: function (e) {
+          $('input[name="title' + type + '').val("")
+        }
+      })
+    };
+
+    //文件上传
+
+    upload.render({
+      elem: '#test1',
+      accept:'audio',
+      acceptMime:'.wav,mp3',
+      before: function (obj) {
+        obj.preview(function (index, file, result) {
+          let path = 'D:/BP4AudioFiles/';
+          path = path + file.name
+          $('input[name="title1').val(path)
+        })
+        return false;
+      },
+    });
+    upload.render({
+      elem: '#test2',
+      accept:'audio',
+      acceptMime:'.wav,mp3',
+      before: function (obj) {
+        obj.preview(function (index, file, result) {
+          let path = 'D:/BP4AudioFiles/';
+          path = path + file.name
+          $('input[name="title2').val(path)
+        })
+        return false;
+      },
+    });
+    upload.render({
+      elem: '#test3',
+      accept:'audio',
+      acceptMime:'.wav,mp3',
+      before: function (obj) {
+        obj.preview(function (index, file, result) {
+          let path = 'D:/BP4AudioFiles/';
+          path = path + file.name
+          $('input[name="title3').val(path)
+        })
+        return false;
+      },
+    });
+    upload.render({
+      elem: '#test4',
+      accept:'audio',
+      acceptMime:'.wav,mp3',
+      before: function (obj) {
+        obj.preview(function (index, file, result) {
+          let path = 'D:/BP4AudioFiles/';
+          path = path + file.name
+          $('input[name="title4').val(path)
+        })
+        return false;
+      },
+    });
+    upload.render({
+      elem: '#test5',
+      accept:'audio',
+      acceptMime:'.wav,mp3',
+      before: function (obj) {
+        obj.preview(function (index, file, result) {
+          let path = 'D:/BP4AudioFiles/';
+          path = path + file.name
+          $('input[name="title5').val(path)
+        })
+        return false;
+      },
+    });
+    upload.render({
+      elem: '#test6',
+      accept:'audio',
+      acceptMime:'.wav,mp3',
+      before: function (obj) {
+        obj.preview(function (index, file, result) {
+          let path = 'D:/BP4AudioFiles/';
+          path = path + file.name
+          $('input[name="title6').val(path)
+        })
+        return false;
+      },
+    });
+
+
+    form.on('submit(pathSave)', function (data) {
+      delete data.field.file
+      console.log(data);
+      var pathArr = []
+      for (let i in data.field) {
+        pathArr.push(data.field[i]); 
+      }
+    pathArr.forEach((item, index) => {
+        let _index = index + 1
+        if (item) {
+          console.log(_index);
+          let data={
+            'alarmType':_index,
+            'audioPath':item
+          }
+          handleUpload(data)
+        }
+      })
+    })
+
+    function handleUpload(param) {
+      $.ajax({
+        url: URL+'/bstar/v1.0/alarmdevice/audio/path',
+        contentType: "application/json;charset=UTF-8",
+        type: 'PUT',
+        data: JSON.stringify(param),
+        success: function (relData) {
+          if (relData.message === 'success') {
+            console.log('成功');
+          }
+        },
+        error: function (e) {
+          console.log(e.status);
+          console.log(e.responseText);
+        }
+      })
+    }
+  });
+</script>
+
+</html>
